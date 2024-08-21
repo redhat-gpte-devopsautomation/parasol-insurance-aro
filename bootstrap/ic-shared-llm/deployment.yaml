@@ -26,7 +26,7 @@ spec:
             limits:
               cpu: '8'
               memory: 24Gi
-              nvidia.com/gpu: '1'
+              nvidia.com/gpu: '2'
             requests:
               cpu: '6'
           readinessProbe:
@@ -61,7 +61,9 @@ spec:
             "--download-dir",
             "/models-cache",
             "--dtype", "float16",
-            "--max-model-len", "6144" ]
+            "--max-model-len", "6144",
+            "--device", "auto",
+            "--tensor-parallel-size", "2" ]
           securityContext:
             capabilities:
               drop:
