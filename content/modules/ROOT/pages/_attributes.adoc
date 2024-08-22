@@ -9,4 +9,5 @@
 :page-user: {user}
 :page-openshift_console_url: {openshift_console_url}
 :page-rhoai_dashboard_url: {rhoai_dashboard_url}
+:page-openshift_cluster_ingress_domain: {openshift_cluster_ingress_domain}
 :imagesdir: ../assets/images
