@@ -107,7 +107,7 @@ spec:
   builtInAdapter:
     env:
       - name: OVMS_FORCE_TARGET_DEVICE
-        value: CPU
+        value: AUTO
     memBufferBytes: 134217728
     modelLoadingTimeoutMillis: 90000
     runtimeManagementPort: 8888
@@ -128,9 +128,11 @@ spec:
         limits:
           cpu: '2'
           memory: 8Gi
+          nvidia.com/gpu: 1
         requests:
           cpu: '2'
           memory: 4Gi
+          nvidia.com/gpu: 1
       volumeMounts:
         - mountPath: /dev/shm
           name: shm
