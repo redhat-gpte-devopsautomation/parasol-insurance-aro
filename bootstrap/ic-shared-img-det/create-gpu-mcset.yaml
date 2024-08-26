@@ -37,7 +37,7 @@ spec:
 
           # Define variables
           NAMESPACE="openshift-machine-api"  # Namespace where the MachineSets are located
-          NEW_MACHINESSET_NAME="new-machineset-name"  # New MachineSet name
+          NEW_MACHINESSET_NAME="gpu-machineset-aro-cluster"  # New MachineSet name
           NEW_MACHINE_TYPE="Standard_NC64as_T4_v3"  # New machine type
           DISK_SIZE_GB=512  # Disk size in GB
 
