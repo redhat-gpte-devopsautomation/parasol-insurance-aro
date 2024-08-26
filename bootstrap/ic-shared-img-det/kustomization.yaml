@@ -8,7 +8,7 @@ commonLabels:
 namespace: ic-shared-img-det
 
 resources:
-- project.yaml
+- namespace.yaml
 - setup-serviceaccount.yaml
 - create-data-connection.yaml
 - add-model-job.yaml
