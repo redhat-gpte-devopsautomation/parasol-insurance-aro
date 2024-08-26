@@ -1,0 +1,74 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: create-machineset-job
+  namespace: ic-shared-img-det    
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation  
+spec:
+  template:
+    spec:
+      serviceAccount: sa-img-det-gitops-setup
+      serviceAccountName: sa-img-det-gitops-setup
+      containers:
+      - name: create-machineset
+        image: image-registry.openshift-image-registry.svc:5000/openshift/tools:latest
+        command:
+        - /bin/bash
+        - -c
+        - |
+          #!/bin/bash
+
+          # Check if oc is installed
+          if ! command -v oc &> /dev/null; then
+              echo "OpenShift CLI (oc) is not installed."
+              exit 1
+          fi
+          echo "oc check complete"
+
+          # Check if jq is installed
+          if ! command -v jq &> /dev/null; then
+              echo "Installing jq..."
+              microdnf install -y jq
+          fi
+          echo "jq check complete"
+
+          # Define variables
+          NAMESPACE="openshift-machine-api"  # Namespace where the MachineSets are located
+          NEW_MACHINESSET_NAME="new-machineset-name"  # New MachineSet name
+          NEW_MACHINE_TYPE="Standard_NC64as_T4_v3"  # New machine type
+          DISK_SIZE_GB=512  # Disk size in GB
+
+          # Get the list of MachineSets
+          machinesets=$(oc get machineset -n $NAMESPACE -o json | jq -r '.items[] | .metadata.name')
+
+          # Pick the first MachineSet
+          EXISTING_MACHINESET_NAME=$(echo "$machinesets" | head -n 1)
+
+          # Check if a MachineSet was found
+          if [ -z "$EXISTING_MACHINESET_NAME" ]; then
+              echo "No MachineSets found."
+              exit 1
+          fi
+          echo "Using MachineSet: $EXISTING_MACHINESET_NAME"
+
+          # Get the existing MachineSet
+          existing_machineset=$(oc get machineset $EXISTING_MACHINESET_NAME -n $NAMESPACE -o json)
+
+          # Modify the MachineSet
+          new_machineset_json=$(echo "$existing_machineset" | jq \
+            --arg name "$NEW_MACHINESSET_NAME" \
+            --arg machineType "$NEW_MACHINE_TYPE" \
+            --arg diskSize "$DISK_SIZE_GB" \
+            '.metadata.name = $name |
+             .spec.replicas = 1 |
+             .spec.template.spec.providerSpec.value.vmSize = $machineType |
+             .spec.template.spec.providerSpec.value.osDisk.diskSizeGB = ($diskSize | tonumber)')
+
+          # Create the new MachineSet
+          echo "$new_machineset_json" | oc apply -f -
+          echo "New MachineSet '$NEW_MACHINESSET_NAME' created with machine type '$NEW_MACHINE_TYPE' and disk size $DISK_SIZE_GB GB."
+      restartPolicy: Never
+  backoffLimit: 1

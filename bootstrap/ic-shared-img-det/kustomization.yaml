@@ -9,7 +9,9 @@ namespace: ic-shared-img-det
 
 resources:
 - namespace.yaml
+- machineset-manager-role.yaml
 - setup-serviceaccount.yaml
+- create-gpu-mcset.yaml
 - create-data-connection.yaml
 - add-model-job.yaml
 - runtime.yaml
