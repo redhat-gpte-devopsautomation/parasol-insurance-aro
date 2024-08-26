@@ -9,6 +9,7 @@ namespace: ic-shared-img-det
 
 resources:
 - project.yaml
+- setup-storage-config.yaml
 - setup-serviceaccount.yaml
 - create-data-connection.yaml
 - add-model-job.yaml
