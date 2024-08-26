@@ -106,7 +106,7 @@ spec:
   builtInAdapter:
     env:
       - name: OVMS_FORCE_TARGET_DEVICE
-        value: AUTO
+        value: CPU
     memBufferBytes: 134217728
     modelLoadingTimeoutMillis: 90000
     runtimeManagementPort: 8888
@@ -125,11 +125,11 @@ spec:
       name: ovms
       resources:
         limits:
-          cpu: '1'
-          memory: 1Gi
+          cpu: '2'
+          memory: 4Gi
         requests:
-          cpu: '1'
-          memory: 1Gi
+          cpu: '2'
+          memory: 4Gi
       volumeMounts:
         - mountPath: /dev/shm
           name: shm
@@ -139,7 +139,7 @@ spec:
   volumes:
     - emptyDir:
         medium: Memory
-        sizeLimit: 2Gi
+        sizeLimit: 4Gi
       name: shm
   replicas: 1
   tolerations: []
