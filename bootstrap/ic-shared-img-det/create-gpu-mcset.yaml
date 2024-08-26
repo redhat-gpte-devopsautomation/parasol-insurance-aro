@@ -10,8 +10,8 @@ metadata:
 spec:
   template:
     spec:
-      serviceAccount: sa-img-det-gitops-setup
-      serviceAccountName: sa-img-det-gitops-setup
+      serviceAccount: sa-img-det-mc-setup
+      serviceAccountName: sa-img-det-mc-setup
       containers:
       - name: create-machineset
         image: image-registry.openshift-image-registry.svc:5000/openshift/tools:latest
