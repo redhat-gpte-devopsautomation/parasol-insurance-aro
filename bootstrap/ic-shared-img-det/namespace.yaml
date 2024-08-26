@@ -6,6 +6,11 @@ metadata:
   labels:
     app: ic-shared-img-det
     argocd.argoproj.io/managed-by: openshift-gitops
+    kubernetes.io/metadata.name: ic-shared-img-det
+    modelmesh-enabled: "true"
+    opendatahub.io/dashboard: "true"    
   annotations:
-    openshift.io/display-name: "MinIO Object Storage"
+    openshift.io/description: Project created to demonstrate custom serving runtime
+    openshift.io/display-name: Shared Image Detection Model
     argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/managed-by: openshift-gitops
