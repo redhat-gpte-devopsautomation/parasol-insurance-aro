@@ -27,6 +27,7 @@ kind: InferenceService
 metadata:
   annotations:
     openshift.io/display-name: img-det
+    argocd.argoproj.io/sync-wave: "3"
     serving.kserve.io/deploymentMode: ModelMesh
   labels:
     name: "img-det"
