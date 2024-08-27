@@ -8,22 +8,6 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: machineset-manager-rolebinding
-  namespace: openshift-machine-api
-  annotations:
-    argocd.argoproj.io/sync-wave: "1"  
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: machineset-manager
-subjects:
-- kind: ServiceAccount
-  name: sa-img-det-mc-setup
-  namespace: ic-shared-img-det
----
-apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: machineset-manager
@@ -42,4 +26,19 @@ rules:
   - update
   - patch
   - delete
-
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: machineset-manager-rolebinding
+  namespace: openshift-machine-api
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"  
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: machineset-manager
+subjects:
+- kind: ServiceAccount
+  name: sa-img-det-mc-setup
+  namespace: ic-shared-img-det
