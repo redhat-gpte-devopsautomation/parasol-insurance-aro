@@ -28,7 +28,7 @@ rules:
   - delete
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
+kind: ClusterRoleBinding
 metadata:
   name: machineset-manager-rolebinding
   namespace: openshift-machine-api
